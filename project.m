@@ -1,0 +1,375 @@
+function varargout = project(varargin)
+% PROJECT MATLAB code for project.fig
+%      PROJECT, by itself, creates a new PROJECT or raises the existing
+%      singleton*.
+%
+%      H = PROJECT returns the handle to a new PROJECT or the handle to
+%      the existing singleton*.
+%
+%      PROJECT('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in PROJECT.M with the given input arguments.
+%
+%      PROJECT('Property','Value',...) creates a new PROJECT or raises the
+%      existing singleton*.  Starting from the left, property value pairs are
+%      applied to the GUI before project_OpeningFcn gets called.  An
+%      unrecognized property name or invalid value makes property application
+%      stop.  All inputs are passed to project_OpeningFcn via varargin.
+%
+%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
+%      instance to run (singleton)".
+%
+% See also: GUIDE, GUIDATA, GUIHANDLES
+
+% Edit the above text to modify the response to help project
+
+% Last Modified by GUIDE v2.5 11-Feb-2019 20:23:52
+
+% Begin initialization code - DO NOT EDIT
+gui_Singleton = 1;
+gui_State = struct('gui_Name',       mfilename, ...
+                   'gui_Singleton',  gui_Singleton, ...
+                   'gui_OpeningFcn', @project_OpeningFcn, ...
+                   'gui_OutputFcn',  @project_OutputFcn, ...
+                   'gui_LayoutFcn',  [] , ...
+                   'gui_Callback',   []);
+if nargin && ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+end
+
+if nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+else
+    gui_mainfcn(gui_State, varargin{:});
+end
+% End initialization code - DO NOT EDIT
+
+
+% --- Executes just before project is made visible.
+function project_OpeningFcn(hObject, eventdata, handles, varargin)
+% This function has no output args, see OutputFcn.
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% varargin   command line arguments to project (see VARARGIN)
+
+% Choose default command line output for project
+handles.output = hObject;
+
+% Update handles structure
+guidata(hObject, handles);
+
+%default formatting
+    handles.uibuttongroup3.Visible = 'On';
+    handles.Skillet.Value = 1;
+    %hide oven panel
+    set(handles.textT, 'visible', 'off');
+    set(handles.slider1, 'visible', 'off');
+    set(handles.oven_temp, 'visible', 'off');
+    
+    %hide microwave panel
+    set(handles.text5, 'visible', 'off');
+    set(handles.slider2, 'visible', 'off');
+    set(handles.wattage, 'visible', 'off');
+    set(handles.text8, 'String', 'Temperature: 75C')
+    
+    handles.slider1.Value = 150;
+    handles.oven_temp.String = sprintf('%g C', round(handles.slider1.Value));
+    
+    handles.slider2.Value = 600;
+    handles.wattage.String = sprintf('%g W', round(handles.slider2.Value));
+    
+
+
+% UIWAIT makes project wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+
+   
+% --- Outputs from this function are returned to the command line.
+function varargout = project_OutputFcn(hObject, eventdata, handles) 
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Get default command line output from handles structure
+varargout{1} = handles.output;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% Formatting from here until next section
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% --- Executes on slider movement.
+%temp slider
+function slider1_Callback(hObject, eventdata, handles)
+% hObject    handle to slider1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+handles.oven_temp.String = sprintf('%g C', round(handles.slider1.Value));
+
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+
+% --- Executes during object creation, after setting all properties.
+function slider1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+%wattage slider
+% --- Executes on slider movement.
+function slider2_Callback(hObject, eventdata, handles)
+% hObject    handle to slider2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+handles.wattage.String = sprintf('%g W', round(handles.slider2.Value));
+% Hints: get(hObject,'Value') returns position of slider
+%        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+
+
+% --- Executes during object creation, after setting all properties.
+function slider2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to slider2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: slider controls usually have a light gray background.
+if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor',[.9 .9 .9]);
+end
+
+
+% --- Executes on button press in Skillet.
+function Skillet_Callback(hObject, eventdata, handles)
+% hObject    handle to Skillet (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if get(hObject, 'Value') == 1.0 
+    %show skillet panel
+    set(handles.uibuttongroup3, 'visible', 'on');
+    
+    %hide oven panel
+    set(handles.textT, 'visible', 'off');
+    set(handles.slider1, 'visible', 'off');
+    set(handles.oven_temp, 'visible', 'off');
+    
+    %hide microwave panel
+    set(handles.text5, 'visible', 'off');
+    set(handles.slider2, 'visible', 'off');
+    set(handles.wattage, 'visible', 'off');
+end
+
+% Hint: get(hObject,'Value') returns toggle state of Skillet
+
+
+% --- Executes on button press in Oven.
+function Oven_Callback(hObject, eventdata, handles)
+% hObject    handle to Oven (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if get(hObject, 'Value') == 1.0 
+    %hide skillet panel
+    set(handles.uibuttongroup3, 'visible', 'off');
+    
+    %hide microwave panel
+    set(handles.text5, 'visible', 'off');
+    set(handles.slider2, 'visible', 'off');
+    set(handles.wattage, 'visible', 'off');
+    
+    %show oven panel
+    set(handles.textT, 'visible', 'on');
+    set(handles.slider1, 'visible', 'on');
+    handles.oven_temp.Visible = 'On';
+    
+end
+% Hint: get(hObject,'Value') returns toggle state of Oven
+
+
+% --- Executes on button press in Microwave.
+function Microwave_Callback(hObject, eventdata, handles)
+% hObject    handle to Microwave (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+    
+    %hide skillet panel
+    set(handles.uibuttongroup3, 'visible', 'off');
+    
+    %hide oven panel
+    set(handles.textT, 'visible', 'off');
+    set(handles.slider1, 'visible', 'off');
+    set(handles.oven_temp, 'visible', 'off');
+    
+    %show microwave panel
+    set(handles.text5, 'visible', 'on');
+    set(handles.slider2, 'visible', 'on');
+    set(handles.wattage, 'visible', 'on');
+    
+    
+
+% Hint: get(hObject,'Value') returns toggle state of Microwave
+
+
+
+function oven_temp_Callback(hObject, eventdata, handles)
+% hObject    handle to oven_temp (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of oven_temp as text
+%        str2double(get(hObject,'String')) returns contents of oven_temp as a double
+
+
+
+% --- Executes on button press in Chicken.
+function Chicken_Callback(hObject, eventdata, handles)
+% hObject    handle to Chicken (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+set(handles.text8, 'String', 'Temperature: 75C')
+% Hint: get(hObject,'Value') returns toggle state of Chicken
+
+
+% --- Executes on button press in Beef.
+function Beef_Callback(hObject, eventdata, handles)
+% hObject    handle to Beef (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+beefstring = sprintf('Temperatures:\nRare: 45C\nMedium Rare: 55C\nMedium: 60C\nMedium Well: 65C\nWell Done: 70C');
+set(handles.text8, 'String', beefstring);
+% Hint: get(hObject,'Value') returns toggle state of Beef
+
+
+% --- Executes on button press in Fish.
+function Fish_Callback(hObject, eventdata, handles)
+% hObject    handle to Fish (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+set(handles.text8, 'String', 'Temperature: 63C')
+
+% Hint: get(hObject,'Value') returns toggle state of Fish
+
+
+
+
+
+function edit2_Callback(hObject, eventdata, handles)
+% hObject    handle to wattage (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of wattage as text
+%        str2double(get(hObject,'String')) returns contents of waRttage as a double
+
+
+
+% --- Executes on button press in radiobutton8.
+function radiobutton8_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton8 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton8
+
+
+% --- Executes on button press in radiobutton9.
+function radiobutton9_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton9 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton9
+
+
+% --- Executes on button press in radiobutton10.
+function radiobutton10_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton10 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton10
+
+
+% --- Executes on button press in radiobutton11.
+function radiobutton11_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton11 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton11
+
+
+% --- Executes on button press in radiobutton12.
+function radiobutton12_Callback(hObject, eventdata, handles)
+% hObject    handle to radiobutton12 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hint: get(hObject,'Value') returns toggle state of radiobutton12
+
+
+% --- If Enable == 'on', executes on mouse press in 5 pixel border.
+% --- Otherwise, executes on mouse press in 5 pixel border or over Skillet.
+function Skillet_ButtonDownFcn(hObject, eventdata, handles)
+% hObject    handle to Skillet (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% End Formatting
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+% --- Executes on button press in Calculate.
+function Calculate_Callback(hObject, eventdata, handles)
+% hObject    handle to Calculate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+if handles.Skillet.Value == 1
+    %set temperature based on which radio button is activated then
+    %calculate time
+
+    time = 10;
+    if handles.Chicken.Value == 1
+        time = time + 5;
+    elseif handles.Beef.Value == 1
+        time = time + 15;
+    elseif handles.Fish.Value == 1
+        time = time + 25;
+    end
+elseif handles.Oven.Value == 1
+    time = 20;
+    %something with handles.Slider1.Value
+    if handles.Chicken.Value == 1
+        time = time + 5;
+    elseif handles.Beef.Value == 1
+        time = time + 15;
+    elseif handles.Fish.Value == 1
+        time = time + 25;
+    end
+elseif handles.Microwave.Value == 1
+    time = 30;
+    %something with handles.Slider2.Value
+   if handles.Chicken.Value == 1
+        time = time + 5;
+    elseif handles.Beef.Value == 1
+        time = time + 15;
+    elseif handles.Fish.Value == 1
+        time = time + 25;
+    end
+end
+
+%output value - probably format 
+%differently for beef
+handles.result.String = sprintf('Time to Cook: %g minutes', time);
